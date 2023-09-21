@@ -1,6 +1,6 @@
 # ML-D-Project
 
-To run code locally, run:
+To run code locally, run the following in shell (local terminal or in vs code cntr + shift + p -> create new python terminal):
 
 ```
 python3 -m venv venv
