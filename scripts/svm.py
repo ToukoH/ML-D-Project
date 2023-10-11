@@ -1,7 +1,7 @@
 from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
 df = pd.read_csv("../data/diabetes.csv")
@@ -13,6 +13,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=1)
 X_train, X_val, y_train, y_val = train_test_split(
     X_train, y_train, test_size=0.25, random_state=1)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_val = scaler.transform(X_val)
+X_test = scaler.transform(X_test)
 
 svm = SVC(kernel="linear",
           C=1)
