@@ -1,7 +1,7 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
 df = pd.read_csv("../data/diabetes.csv")
@@ -14,11 +14,16 @@ X_train, X_test, y_train, y_test = train_test_split(
 X_train, X_val, y_train, y_val = train_test_split(
     X_train, y_train, test_size=0.25, random_state=1)
 
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_val = scaler.transform(X_val)
+X_test = scaler.transform(X_test)
+
 logistic_regressor = LogisticRegression(
     penalty='l2',
     C=1.0,
     solver='lbfgs',
-    max_iter=100,
+    max_iter=500,
     class_weight='balanced'
 )
 
@@ -46,4 +51,4 @@ print("____________________________")
 y_test_pred = logistic_regressor.predict(X_test)
 
 accuracy_score = accuracy_score(y_test, y_test_pred)
-print(f"Accuracy Score: {accuracy_score}:.4f")
+print(f"Accuracy Score: {accuracy_score:.4f}")
